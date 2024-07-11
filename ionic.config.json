@@ -1,0 +1,7 @@
+{
+  "name": "Knit Calc",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
