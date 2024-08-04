@@ -1,11 +1,31 @@
-<ion-list>
-    <ion-item><app-project-thumb name="sweater"/></ion-item>
-    <ion-item><app-project-thumb name="scarf"/></ion-item>
-    <ion-item><app-project-thumb name="mittens"/></ion-item>
-    <ion-item><app-project-thumb name="vest"/></ion-item>
-    <ion-item><app-project-thumb name="gloves"/></ion-item>
-    <ion-item><app-project-thumb name="hat"/></ion-item>
-    <ion-item><app-project-thumb name="beret"/></ion-item>
-    <ion-item><app-project-thumb name="blanket"/></ion-item>
-    <ion-item><app-project-thumb name="socks"/></ion-item>
-</ion-list>
+<ion-accordion-group>
+    <ion-accordion value="sweater">
+        <ion-item slot="header"><app-project-thumb name="sweater" /></ion-item>
+        <app-sweater class="ion-padding" slot="content" />
+    </ion-accordion>
+    <ion-accordion value="scarf">
+        <ion-item slot="header"><app-project-thumb name="scarf" /></ion-item>
+        <app-sweater class="ion-padding" slot="content" />
+    </ion-accordion>
+    <ion-accordion value="mittens">
+        <ion-item slot="header"><app-project-thumb name="mittens" /></ion-item>
+    </ion-accordion>
+    <ion-accordion value="vest">
+        <ion-item slot="header"><app-project-thumb name="vest" /></ion-item>
+    </ion-accordion>
+    <ion-accordion value="gloves">
+        <ion-item slot="header"><app-project-thumb name="gloves" /></ion-item>
+    </ion-accordion>
+    <ion-accordion value="hat">
+        <ion-item slot="header"><app-project-thumb name="hat" /></ion-item>
+    </ion-accordion>
+    <ion-accordion value="beret">
+        <ion-item slot="header"><app-project-thumb name="beret" /></ion-item>
+    </ion-accordion>
+    <ion-accordion value="blanket">
+        <ion-item slot="header"><app-project-thumb name="blanket" /></ion-item>
+    </ion-accordion>
+    <ion-accordion value="socks">
+        <ion-item slot="header"><app-project-thumb name="socks" /></ion-item>
+    </ion-accordion>
+</ion-accordion-group>

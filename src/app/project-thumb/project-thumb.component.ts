@@ -17,6 +17,6 @@ export class ProjectThumbComponent implements OnInit {
   ngOnInit() {}
 
   handleClick() {
-    this.router.navigate([`/tabs/tab1/${this.name}`])
+    // this.router.navigate([`/tabs/tab1/${this.name}`])
   }
 }

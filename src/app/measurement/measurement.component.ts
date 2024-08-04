@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 
@@ -6,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
   selector: 'app-measurement',
   templateUrl: './measurement.component.html',
   styleUrls: ['./measurement.component.scss'],
-  imports: [IonicModule],
+  imports: [IonicModule, CommonModule],
 })
 export class MeasurementComponent  implements OnInit {
   @Input() name: string = 'size';

@@ -1,17 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title> Sweater </ion-title>
-  </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true">
-  <div class="thumb">
-    <img alt="name" src="assets/img/thumbs/{{name}}.png" />
-    <ion-label text class="centered">{{name}}</ion-label>
-  </div>
-  <ion-grid>
-    <app-measurement name="size" [value]="chest" [units]="chestUnits" [unitOptions]="shortLengthOptions"/>
-    <app-measurement name="gauge" [value]="guage" [units]="guageUnits" [unitOptions]="guageOptions"/>
-    <app-measurement name="ball size" [value]="ballSize" [units]="ballSizeUnits" [unitOptions]="longLengthOptions"/>
-    <app-measurement name="ball count" [value]="ballCount" [units]="ballCountUnits" [unitOptions]="ballOptions"/>
-  </ion-grid>
-</ion-content>
+<ion-grid>
+  <app-measurement name="size" [value]="chest" [units]="chestUnits" [unitOptions]="shortLengthOptions" />
+  <app-measurement name="gauge" [value]="guage" [units]="guageUnits" [unitOptions]="guageOptions" />
+  <app-measurement name="ball size" [value]="ballSize" [units]="ballSizeUnits" [unitOptions]="longLengthOptions" />
+  <app-measurement name="ball count" [value]="ballCount" [units]="ballCountUnits" [unitOptions]="ballOptions" />
+</ion-grid>

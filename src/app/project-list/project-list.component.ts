@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { ProjectThumbComponent } from '../project-thumb/project-thumb.component';
+import { SweaterComponent } from '../projects/sweater/sweater.component';
 
 @Component({
   standalone: true,
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss'],
-  imports: [ProjectThumbComponent, IonicModule]
+  imports: [ProjectThumbComponent, IonicModule, SweaterComponent]
 })
 export class ProjectListComponent implements OnInit {
   constructor() {}
