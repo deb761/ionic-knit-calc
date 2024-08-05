@@ -1,6 +1,6 @@
 <ion-grid>
-  <app-measurement name="size" [value]="chest" [units]="chestUnits" [unitOptions]="shortLengthOptions" />
-  <app-measurement name="gauge" [value]="guage" [units]="guageUnits" [unitOptions]="guageOptions" />
-  <app-measurement name="ball size" [value]="ballSize" [units]="ballSizeUnits" [unitOptions]="longLengthOptions" />
-  <app-measurement name="ball count" [value]="ballCount" [units]="ballCountUnits" [unitOptions]="ballOptions" />
+  <app-measurement #sizeDim name="size" [dimension]="chestDimension" (change)="handleSizeChange(sizeDim.dimension)"/>
+  <app-measurement name="gauge" [dimension]="gaugeDimension" />
+  <app-measurement name="ball size" [dimension]="ballSizeDimension" />
+  <app-measurement name="ball count" [dimension]="ballsDimension"  />
 </ion-grid>

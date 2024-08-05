@@ -1,7 +1,9 @@
 <ion-row>
-  <ion-col><ion-input [label]="name" type="number" [value]="value"></ion-input></ion-col>
-  <ion-col><ion-select label="units" interface="action-sheet" value="in">
-      <ion-select-option *ngFor="let option of unitOptions" value="option">{{option}}</ion-select-option>
+  <ion-col><ion-input #num [label]="label" type="number" [value]="dimension.value"
+      (ionChange)="handleValueChange(num.value)"></ion-input></ion-col>
+  <ion-col><ion-select #unitName label="units" interface="popover" mode="ios" [value]="dimension.units"
+      (ionChange)="handleUnitChange(unitName.value)">
+      <ion-select-option *ngFor="let option of dimension.unitOptions" [value]="option.value">{{option.label}}</ion-select-option>
     </ion-select>
   </ion-col>
 </ion-row>

@@ -1,4 +1,4 @@
-import { gaugeUnits, GaugeUnits, longLengthUnits, LongLengthUnits, shortLengthUnits, wholePartialUnits, WholePartialUnits, type Dimension } from "./dimension";
+import { gaugeUnitOptions, GaugeUnits, longLengthUnitOptions, LongLengthUnits, wholePartialUnitOptions, WholePartialUnits, type Dimension } from "./dimension";
 export const inches2cm: number = 2.54;
 export const yards2meters: number = 0.9144;
 
@@ -6,11 +6,26 @@ export class Project {
 
     protected name: String = "Project"
 
-    public gaugeDimension: Dimension<GaugeUnits> = { value: 40, unitOptions: Object.keys(gaugeUnits), units: 'sts/4in' }
-    public ballSizeDimension: Dimension<LongLengthUnits> = { value: 120, unitOptions: Object.keys(longLengthUnits), units: 'm' }
-    public yarnDimension: Dimension<LongLengthUnits> = { value: 0, unitOptions: Object.keys(longLengthUnits), units: 'yd' }
-    public ballsDimension: Dimension<WholePartialUnits> = { value: 0, unitOptions: Object.keys(wholePartialUnits), units: 'whole' }
+    public gaugeDimension: Dimension = { value: 20, unitOptions: gaugeUnitOptions, units: gaugeUnitOptions[0].value }
+    public ballSizeDimension: Dimension = { value: 120, unitOptions: longLengthUnitOptions, units: longLengthUnitOptions[0].value }
+    public yarnDimension: Dimension = { value: 0, unitOptions: longLengthUnitOptions, units: longLengthUnitOptions[0].value }
+    public ballsDimension: Dimension = { value: 0, unitOptions: wholePartialUnitOptions, units: wholePartialUnitOptions[0].value }
 
+    public get gauge(): number {
+        return this.gaugeDimension.value
+    }
+    public set gauge(value) {   
+        this.gaugeDimension.value = value
+    }
+    public get gaugeUnits(): GaugeUnits {
+        return this.gaugeDimension.units
+    }
+    public set gaugeUnits(value) {
+        this.gaugeDimension.units = value
+    }
+    public get gaugeOptions() {
+        return this.gaugeDimension.unitOptions
+    }
     public get yarnNeeded(): number {
         return this.yarnDimension.value
     }
@@ -23,11 +38,23 @@ export class Project {
     public set ballSize(value: number) {
         this.ballSizeDimension.value = value
     }
-    public get ballsNeeded(): number {
+    public get ballSizeUnits(): LongLengthUnits {
+        return this.ballSizeDimension.units
+    }
+    public set ballSizeUnits(value) {
+        this.ballSizeDimension.units = value
+    }
+    public get ballCount(): number {
         return this.ballsDimension.value
     }
-    public set ballsNeeded(value: number) {
+    public set ballCount(value: number) {
         this.ballsDimension.value = value
+    }
+    public get ballCountUnits(): WholePartialUnits {
+        return this.ballsDimension.units
+    }
+    public set ballCountUnits(value) {
+        this.ballsDimension.units = value
     }
 
     // Calculate the yarn required for a piece of knitted fabric with length and width in cm
@@ -41,7 +68,7 @@ export class Project {
 
         let siGauge = gauge
         // First, put values into SI units
-        if (this.gaugeDimension.units == gaugeUnits.stsPerInch) {
+        if (this.gaugeDimension.units == 'stsPerInch') {
             siGauge *= 4;
         }
         // Change to stitches per cm
@@ -49,7 +76,7 @@ export class Project {
 
         let ballSizeUnits = this.ballSizeDimension.units
         let siballSize: number = this.ballsDimension.value
-        if (ballSizeUnits == longLengthUnits.yards) {
+        if (ballSizeUnits == 'yards') {
             siballSize *= yards2meters;
         }
         let stitches: number = Number(Math.ceil(siGauge * siWidth));
@@ -62,7 +89,7 @@ export class Project {
         let meters = this.getStitchLength(siGauge) * Number(totalStitches) * 1.2
 
         // Now convert the yarn required into the desired units
-        if (this.yarnDimension.units != longLengthUnits.meters) {
+        if (this.yarnDimension.units != 'meters') {
             this.yarnNeeded = Number(Math.ceil(meters / yards2meters));
         }
         else {
@@ -71,7 +98,7 @@ export class Project {
 
         this.ballsDimension.value = meters / siballSize
 
-        if (this.ballsDimension.units == wholePartialUnits.whole) {
+        if (this.ballsDimension.units == 'whole') {
             this.ballsDimension.value = Math.ceil(this.ballsDimension.value)
         }
     }
@@ -91,15 +118,15 @@ export class Project {
             this.ballsDimension.value = Number(this.yarnNeeded) / Number(this.ballsDimension.value)
         }
         else {
-            let yarn: number = (this.yarnDimension.units == longLengthUnits.meters) ? Number(this.yarnNeeded) :
+            let yarn: number = (this.yarnDimension.units == 'meters') ? Number(this.yarnNeeded) :
                 Number(this.yarnNeeded) * yards2meters
-            let ballMeters: number = (this.ballSizeDimension.units == longLengthUnits.meters) ? Number(this.ballSize) :
+            let ballMeters: number = (this.ballSizeDimension.units == 'meters') ? Number(this.ballSize) :
                 Number(this.ballSize) * yards2meters
-            this.ballsNeeded = yarn / ballMeters
+            this.ballCount = yarn / ballMeters
         }
 
-        if (this.ballsDimension.units == wholePartialUnits.whole) {
-            this.ballsNeeded = Math.ceil(this.ballsNeeded)
+        if (this.ballsDimension.units == 'whole') {
+            this.ballCount = Math.ceil(this.ballCount)
         }
     }
 }
