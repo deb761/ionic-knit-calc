@@ -2,14 +2,14 @@ import { gaugeUnitOptions, GaugeUnits, longLengthUnitOptions, LongLengthUnits, w
 export const inches2cm: number = 2.54;
 export const yards2meters: number = 0.9144;
 
-export class Project {
+export abstract class Project {
 
     protected name: String = "Project"
 
     public gaugeDimension: Dimension = { value: 20, unitOptions: gaugeUnitOptions, units: gaugeUnitOptions[0].value }
     public ballSizeDimension: Dimension = { value: 120, unitOptions: longLengthUnitOptions, units: longLengthUnitOptions[0].value }
-    public yarnDimension: Dimension = { value: 0, unitOptions: longLengthUnitOptions, units: longLengthUnitOptions[0].value }
-    public ballsDimension: Dimension = { value: 0, unitOptions: wholePartialUnitOptions, units: wholePartialUnitOptions[0].value }
+    public yarnDimension: Dimension = { readonly: true, value: 0, unitOptions: longLengthUnitOptions, units: longLengthUnitOptions[0].value }
+    public ballsDimension: Dimension = { readonly: true, value: 0, unitOptions: wholePartialUnitOptions, units: wholePartialUnitOptions[0].value }
 
     public get gauge(): number {
         return this.gaugeDimension.value
@@ -57,13 +57,35 @@ export class Project {
         this.ballsDimension.units = value
     }
 
+    handleGaugeChange(dimension: Dimension) {
+        this.gaugeDimension = dimension
+        this.calcYarn()
+    }
+
+    handleBallSizeChange(dimension: Dimension) {
+        this.ballSizeDimension = dimension
+        this.calcYarn()
+    }
+
+    handleYarnChange(dimension: Dimension) {
+        this.yarnDimension.units = dimension.units
+        this.calcYarn()
+    }
+
+    handleBallSplitChange(dimension: Dimension) {
+        this.ballsDimension.units = dimension.units
+        this.calcYarn()
+    }
+
+    calcYarn() {}
+
     // Calculate the yarn required for a piece of knitted fabric with length and width in cm
     // and guage in sts/10cm
-    calcYarnForArea = (siLength: number, siWidth: number): void => {
+    calcYarnForArea = (siLength: number, siWidth: number): number => {
         const gauge = this.gaugeDimension.value
 
         if (gauge <= 0) {
-            return
+            return 0
         }
 
         let siGauge = gauge
@@ -74,11 +96,6 @@ export class Project {
         // Change to stitches per cm
         siGauge = gauge / 10
 
-        let ballSizeUnits = this.ballSizeDimension.units
-        let siballSize: number = this.ballsDimension.value
-        if (ballSizeUnits == 'yards') {
-            siballSize *= yards2meters;
-        }
         let stitches: number = Number(Math.ceil(siGauge * siWidth));
         let rowGauge: number = siGauge * 1.5;
         let rows: number = Number(Math.ceil(rowGauge * siLength));
@@ -87,21 +104,33 @@ export class Project {
 
         // calculate meters and add 20%
         let meters = this.getStitchLength(siGauge) * Number(totalStitches) * 1.2
+        return meters
+    }
 
-        // Now convert the yarn required into the desired units
+    // convert the yarn required into the desired units
+    public setYarnNeeded(meters: number) {
         if (this.yarnDimension.units != 'meters') {
             this.yarnNeeded = Number(Math.ceil(meters / yards2meters));
         }
         else {
             this.yarnNeeded = Number(Math.ceil(meters));
         }
+    }
 
+    // Calculate the number of balls needed
+    public setBallsNeeded(meters: number) {
+        let ballSizeUnits = this.ballSizeDimension.units
+        let siballSize: number = this.ballSizeDimension.value
+        if (ballSizeUnits == 'yards') {
+            siballSize *= yards2meters;
+        }
+  
         this.ballsDimension.value = meters / siballSize
-
         if (this.ballsDimension.units == 'whole') {
             this.ballsDimension.value = Math.ceil(this.ballsDimension.value)
         }
-    }
+   }
+
     // Compute the length of a stitch in m, treating the row of stitches as a helix
     public getStitchLength = (cmGauge: number): number => {
         let stitchWidth = 1.0 / cmGauge
@@ -112,6 +141,7 @@ export class Project {
         // length is twice the stitchWidth, and convert to meters
         return Math.sqrt(span * span + stitchCir * stitchCir) / 100.0
     }
+
     // Calculate the number of balls needed, taking into account the selected units
     public calcballsNeeded = () => {
         if (this.yarnDimension.units == this.ballsDimension.units) {

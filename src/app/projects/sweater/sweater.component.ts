@@ -36,12 +36,14 @@ export class SweaterComponent extends Project implements OnInit {
     this.chestDimension.units = value;
   }
 
-  constructor() {
-    super()
+  // constructor() {
+  //   super()
+  //   this.calcYarn()
+  // }
+
+  ngOnInit() {
     this.calcYarn()
   }
-
-  ngOnInit() {}
 
   handleSizeChange(size: Dimension) {
     console.log(size)
@@ -56,7 +58,7 @@ export class SweaterComponent extends Project implements OnInit {
   // than women.  The linear equation used here includes a 10% increase in the value to account
   // for this, so the estimate should still be high enough for men while not being way too much
   // for women.
-  calcYarn() {
+  override calcYarn() {
     let chest = this.chest;
     if (this.chestUnits == 'inches') {
       chest *= inches2cm;
@@ -70,6 +72,8 @@ export class SweaterComponent extends Project implements OnInit {
     let width = chest * 1.75;
     let length = area / width;
 
-    this.calcYarnForArea(length, width);
+    const meters = this.calcYarnForArea(length, width)
+    this.setYarnNeeded(meters)
+    this.setBallsNeeded(meters)
   }
 }

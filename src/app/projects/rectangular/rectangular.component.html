@@ -1,5 +1,6 @@
 <ion-grid>
-  <app-measurement #sizeDim name="size" [dimension]="chestDimension" (change)="handleSizeChange(sizeDim.dimension)"/>
+  <app-measurement #width name="Width" [dimension]="widthDimension" (change)="handleWidthChange(width.dimension)"/>
+  <app-measurement #height name="Height" [dimension]="heightDimension" (change)="handleHeightChange(height.dimension)"/>
   <app-measurement #gaugeDim name="gauge" [dimension]="gaugeDimension" (change)="handleGaugeChange(gaugeDim.dimension)"/>
   <app-measurement #ballDim name="ball size" [dimension]="ballSizeDimension" (change)="handleBallSizeChange(ballDim.dimension)"/>
   <app-measurement #needed name="yarn needed" [dimension]="yarnDimension" (change)="handleYarnChange(needed.dimension)" />

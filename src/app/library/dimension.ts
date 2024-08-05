@@ -1,6 +1,7 @@
 export type UnitOptions = { label: string, value: string }
 
 export type Dimension = {
+    readonly?: boolean
     value: number
     unitOptions: UnitOptions[]
     units: string
