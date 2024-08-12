@@ -48,7 +48,7 @@ export class RectangularComponent extends Project implements OnInit {
     if (this.heightDimension.units == 'inches') {
       height *= inches2cm;
     }
-    console.log('width', width, 'height', height);
+
     const meters = this.calcYarnForArea(height, width);
     this.setYarnNeeded(meters);
     this.setBallsNeeded(meters);
